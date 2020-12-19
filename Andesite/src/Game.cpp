@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Game.h"
+#include "SDL_image.h"
+#include "TextureManager.h"
 
 Game::Game()
 {
@@ -15,6 +17,7 @@ Game::~Game()
 void Game::init(const char* TITLE, int xPos, int yPos, int w, int h, bool fullscreen)
 {
 	int isFullScreen = 0;
+	int imgTypeFlag = IMG_INIT_PNG;
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
@@ -37,6 +40,13 @@ void Game::init(const char* TITLE, int xPos, int yPos, int w, int h, bool fullsc
 		{
 			std::cout << "ERROR::GAME::INITIALIZE: Unable to create renderer." << std::endl;
 			return; 
+		}
+
+
+		if (!(IMG_Init(imgTypeFlag) & imgTypeFlag))
+		{
+			std::cout << "ERROR::GAME:INTIALIZE: Unable to intialize SDL IMG: " << IMG_GetError() << std::endl;
+			return;
 		}
 
 		SDL_SetRenderDrawColor(renderer, 50, 50, 50, SDL_ALPHA_OPAQUE);	
@@ -71,8 +81,13 @@ void Game::update()
 
 void Game::render()
 {
+	const char* img_path = "src\\assets\\andesite_volcano_background.png";
+
 	SDL_RenderClear(renderer);
+	SDL_Texture* background = TextureManager::LoadTexture(img_path, renderer);
+	SDL_RenderCopy(renderer, background, NULL, NULL);
 	SDL_RenderPresent(renderer);
+	SDL_DestroyTexture(background);
 }
 
 void Game::clean()
