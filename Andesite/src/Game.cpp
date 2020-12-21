@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "SDL_image.h"
 #include "TextureManager.h"
+#include "Player.h"
 
 Game::Game()
 {
@@ -76,7 +77,7 @@ void Game::handleEvent()
 
 void Game::update()
 {
-
+	
 }
 
 void Game::render()
