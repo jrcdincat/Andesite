@@ -20,6 +20,7 @@ int main(int argc, char*args[])
 		game->handleEvent();
 		game->update();
 		game->render();
+		// SDL_Delay(10); need ? 
 	} 
 
 	delete game;

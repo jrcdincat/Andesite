@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "SDL_image.h"
 #include "TextureManager.h"
-#include "Player.h"
+//#include "Player.h"
 
 Game::Game()
 {
@@ -62,17 +62,81 @@ void Game::init(const char* TITLE, int xPos, int yPos, int w, int h, bool fullsc
 
 void Game::handleEvent()
 {
+	const Uint8* state = SDL_GetKeyboardState(NULL);
 	SDL_Event event; 
 	SDL_PollEvent(&event);
-
+	
 	switch (event.type)
 	{
 	case SDL_QUIT:
 		isRunning = false; 
 		break;
+	case SDL_KEYDOWN: 
+		handleKeyInput(state);
+		break;
+	case SDL_KEYUP:
+		player.setSpeed(0.0f, 0.0f);
+		break;
+	//case SDL_KEYDOWN: 
+		//handleKeyInput(SDL_KEYDOWN, event);
+		//break;
+	//case SDL_KEYUP:
+		//handleKeyInput(SDL_KEYUP, event);
 	default: 
 		break;
 	}
+}
+
+// Get keyboard input state
+void Game::handleKeyInput(const Uint8* state) {
+
+	
+	if (state[SDL_SCANCODE_A])
+	{
+		std::cout << std::get<0>(player.getSpeed()) << std::endl;
+		player.setSpeed(1.5f, 0.0f);
+		std::cout << std::get<0>(player.getSpeed()) << std::endl;
+		std::cout << "Move Left" << std::endl;
+		if (state[SDL_SCANCODE_SPACE])
+			std::cout << "Jump LEFT" << std::endl;
+	}
+	else if (state[SDL_SCANCODE_D])
+	{
+		std::cout << "Move Right" << std::endl;
+		if (state[SDL_SCANCODE_SPACE])
+			std::cout << "Jump Right" << std::endl;
+	}
+	else if (state[SDL_SCANCODE_SPACE])
+	{
+		std::cout << "Jump" << std::endl;
+	}
+	else if (state[SDL_SCANCODE_ESCAPE])
+	{
+		std::cout << "ESC" << std::endl;
+	}
+
+
+	/*if (type == SDL_KEYDOWN)
+		switch (event.key.keysym.sym)
+		{
+		case SDLK_a:
+			std::cout << "LEFT PRESSED" << std::endl;
+			break;
+		case SDLK_d:
+			std::cout << "RIGHT PRESSED" << std::endl;
+			break;
+		case SDLK_SPACE:
+			std::cout << "JUMP PRESSED" << std::endl;
+			break;
+		case SDLK_SPACE&& SDLK_a: 
+			std::cout << "LEFT JUMP" << std::endl;
+			break;
+		case SDLK_ESCAPE:
+			std::cout << "ESCAPE PRESSED" << std::endl;
+			break;
+		}
+	else if (type == SDL_KEYUP)
+		std::cout << "UP" << std::endl;*/
 }
 
 void Game::update()

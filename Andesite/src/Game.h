@@ -1,4 +1,5 @@
 #pragma once
+#include "Player.h"
 
 class Game
 {
@@ -13,8 +14,13 @@ public:
 	void clean();
 	bool running();
 
+	
+	
+
 private:
+	void handleKeyInput(const Uint8* state);
 	bool isRunning;
 	SDL_Window* window; 
 	SDL_Renderer* renderer;
+	Player player;
 };
