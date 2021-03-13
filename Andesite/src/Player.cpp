@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Player.h"
+#include "InputManager.h"
 
 Player::Player() {
 	speed = std::make_tuple(0.0f, 0.0f);

@@ -2,6 +2,10 @@
 #include "Game.h"
 #include "SDL_image.h"
 
+#ifdef _DEBUG
+#include "crtdbg.h"
+#endif // DEBUG
+
 int main(int argc, char*args[])
 {
 	int screenWidth = 640;
@@ -24,5 +28,8 @@ int main(int argc, char*args[])
 	} 
 
 	delete game;
+#ifdef _DEBUG
+	_CrtDumpMemoryLeaks();
+#endif // DEBUG
 	return 0;
 }
