@@ -121,6 +121,7 @@ void Game::render()
 void Game::clean()
 {
 	delete command;
+	delete inputManager;
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
