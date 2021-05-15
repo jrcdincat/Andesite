@@ -27,6 +27,23 @@ SDL_Texture* TextureManager::LoadTexture(const char* file, SDL_Renderer* rendere
 	return texture;
 }
 
+void TextureManager::renderTexture(Entity& entity, SDL_Renderer* renderer)
+{
+	SDL_Rect sourceRect;
+	sourceRect.x = entity.getCurrentFrame().x; 
+	sourceRect.y = entity.getCurrentFrame().y;
+	sourceRect.w = entity.getCurrentFrame().w;
+	sourceRect.h = entity.getCurrentFrame().h;
+
+	SDL_Rect destinationRec; 
+	destinationRec.x = entity.getX();
+	destinationRec.y = entity.getY();
+	destinationRec.w = entity.getCurrentFrame().w;
+	destinationRec.h = entity.getCurrentFrame().h;
+	
+	SDL_RenderCopy(renderer, entity.getTexture(), &sourceRect, &destinationRec);
+}
+
 void TextureManager::DrawFrame(std::string id, int x, int y, int width, int height, int row, int frame, SDL_Renderer* renderer,SDL_RendererFlip flip)
 {
 	SDL_Rect sourceRect = { width * frame, height * (row - 1), width, height };
