@@ -113,8 +113,8 @@ void Game::render()
 
 	SDL_RenderClear(renderer);
 	SDL_Texture* background = TextureManager::LoadTexture(img_path, renderer);
-	Entity entity(0, 0, background);
-	Entity entity1(20, 50, background);
+	Entity entity(Vector2f(0.0f,0.0f), background);
+	Entity entity1(Vector2f(20.0f,50.0f), background);
 	/*SDL_RenderCopy(renderer, background, NULL, NULL);*/
 	TextureManager::renderTexture(entity, renderer);
 	TextureManager::renderTexture(entity1, renderer);

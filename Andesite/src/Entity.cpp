@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "Entity.h"
 
-Entity::Entity(float xParam, float yParam, SDL_Texture* textureParam)
-	:x(xParam), y(yParam), texture(textureParam) 
+Entity::Entity(Vector2f posParam, SDL_Texture* textureParam)
+	:position(posParam), texture(textureParam) 
 {
 	// Remove hardcode later
 	currentFrame.x = 0;
@@ -15,14 +15,9 @@ Entity::~Entity()
 
 }
 
-float Entity::getX() 
+Vector2f& Entity::getPos()
 {
-	return x;
-}
-
-float Entity::getY() 
-{
-	return y;
+	return position;
 }
 
 SDL_Texture* Entity::getTexture() 

@@ -36,8 +36,8 @@ void TextureManager::renderTexture(Entity& entity, SDL_Renderer* renderer)
 	sourceRect.h = entity.getCurrentFrame().h;
 
 	SDL_Rect destinationRec; 
-	destinationRec.x = entity.getX();
-	destinationRec.y = entity.getY();
+	destinationRec.x = entity.getPos().x;
+	destinationRec.y = entity.getPos().y;
 	destinationRec.w = entity.getCurrentFrame().w;
 	destinationRec.h = entity.getCurrentFrame().h;
 	
