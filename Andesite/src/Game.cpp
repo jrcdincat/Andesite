@@ -1,24 +1,23 @@
 #include "pch.h"
 #include "Game.h"
-#include "SDL_image.h"
-#include "TextureManager.h"
-#include "InputManager.h"
 //#include "Player.h"
+Game* Game::gameInstance = nullptr;
 
 Game::Game()
 {
+	keyState = nullptr;
 	isRunning = false; 
 	window = nullptr;
 	renderer = nullptr;
 	command = nullptr;
-	inputManager = nullptr;
+	gameInstance = nullptr;
 }
 Game::~Game()
 {
-	clean();
+	Clean();
 }
 
-void Game::init(const char* TITLE, int xPos, int yPos, int w, int h, bool fullscreen)
+bool Game::Init(const char* TITLE, int xPos, int yPos, int w, int h, bool fullscreen)
 {
 	int isFullScreen = 0;
 	int imgTypeFlag = IMG_INIT_PNG;
@@ -34,38 +33,37 @@ void Game::init(const char* TITLE, int xPos, int yPos, int w, int h, bool fullsc
 		window = SDL_CreateWindow(TITLE, xPos, yPos, w, h, isFullScreen);
 		if (!window)
 		{
-			std::cout << "ERROR::GAME::INITIALIZE: Unable to create window." << std::endl;
-			return; 
+			SDL_Log("Failed to create window: %s", SDL_GetError());
+			return false; 
 		}
 
 		// Create Renderer
 		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 		if (!renderer)
 		{
-			std::cout << "ERROR::GAME::INITIALIZE: Unable to create renderer." << std::endl;
-			return; 
+			SDL_Log("Failed to create renderer: %s", SDL_GetError());
+			return false; 
 		}
 
 
 		if (!(IMG_Init(imgTypeFlag) & imgTypeFlag))
 		{
-			std::cout << "ERROR::GAME:INTIALIZE: Unable to intialize SDL IMG: " << IMG_GetError() << std::endl;
-			return;
+			SDL_Log("Failed to initialize SDL IMG: %s", IMG_GetError());
+			return false;
 		}
-
-		SDL_SetRenderDrawColor(renderer, 50, 50, 50, SDL_ALPHA_OPAQUE);	
-		isRunning = true; 
 	}
 	else 
 	{
 		SDL_Log("ERROR::GAME::INITIALIZE: Unable to initialize SDL: %s", SDL_GetError());
-		isRunning = false; 
+		return false;
 	}
-	inputManager = new InputManager();
+
+	TextureManager::GetInstance()->LoadTexture("chest", "src/assets/images/Tile_16.png");
+	isRunning = true;
+	return isRunning;
 }
 
-void Game::handleEvent()
-{
+void Game::HandleEvent() {
 	SDL_Event event; 
 	SDL_PollEvent(&event);
 	keyState = SDL_GetKeyboardState(NULL);
@@ -77,24 +75,18 @@ void Game::handleEvent()
 		break;
 	case SDL_KEYDOWN: 
 
-		std::cout << inputManager->handleKeyInput(keyState) <<std::endl;
-		command = inputManager->handleKeyInput(keyState);
+		std::cout << InputManager::GetInstance()->handleKeyInput(keyState) <<std::endl;
+		command = InputManager::GetInstance()->handleKeyInput(keyState);
 		std::cout << command << std::endl;
 		if (command)
 		{
 			std::cout << "in command" << std::endl;
 			command->execute(player);
 		}
-		// handleKeyInput(state);
 		break;
 	case SDL_KEYUP:
 		player.setSpeed(0.0f, 0.0f);
 		break;
-	//case SDL_KEYDOWN: 
-		//handleKeyInput(SDL_KEYDOWN, event);
-		//break;
-	//case SDL_KEYUP:
-		//handleKeyInput(SDL_KEYUP, event);
 	default: 
 		break;
 	}
@@ -102,36 +94,35 @@ void Game::handleEvent()
 
 
 
-void Game::update()
-{
+void Game::Update(float deltaTime) {
 	
 }
 
-void Game::render()
-{
-	const char* img_path = "src\\assets\\andesite_volcano_background.png";
+void Game::Render() {
+	SDL_SetRenderDrawColor(renderer, 50, 50, 50, SDL_ALPHA_OPAQUE);
+
+	const char* img_path = "src\\assets\\images\\Background.png";
 
 	SDL_RenderClear(renderer);
-	SDL_Texture* background = TextureManager::LoadTexture(img_path, renderer);
-	Entity entity(Vector2f(0.0f,0.0f), background);
-	Entity entity1(Vector2f(20.0f,50.0f), background);
-	/*SDL_RenderCopy(renderer, background, NULL, NULL);*/
-	TextureManager::renderTexture(entity, renderer);
-	TextureManager::renderTexture(entity1, renderer);
+
+	TextureManager::GetInstance()->Draw("chest", 100, 100, 256, 256);
+
+	//SDL_Texture* background = TextureManager::LoadTexture(img_path, renderer);
+	//Entity entity(Vector2f(0.0f,0.0f), background);
+	//Entity entity1(Vector2f(20.0f,50.0f), background);
+	//SDL_RenderCopy(renderer, background, NULL, NULL);
+	//TextureManager::renderTexture(entity, renderer);
+	//TextureManager::renderTexture(entity1, renderer);
 	SDL_RenderPresent(renderer);
-	SDL_DestroyTexture(background);
+	//SDL_DestroyTexture(background);
 }
 
-void Game::clean()
-{
-	delete command;
-	delete inputManager;
-	SDL_DestroyWindow(window);
+void Game::Clean() {
+	delete InputManager::GetInstance();
+	TextureManager::GetInstance()->Clean();
+	delete TextureManager::GetInstance();
 	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+	IMG_Quit();
 	SDL_Quit();
-}
-
-bool Game::running()
-{
-	return isRunning;
 }

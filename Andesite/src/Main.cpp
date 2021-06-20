@@ -2,10 +2,6 @@
 #include "Game.h"
 #include "SDL_image.h"
 
-#ifdef _DEBUG
-#include "crtdbg.h"
-#endif // DEBUG
-
 int main(int argc, char*args[])
 {
 	int screenWidth = 640;
@@ -13,23 +9,19 @@ int main(int argc, char*args[])
 	bool fullscreen = false;
 	int xPos = SDL_WINDOWPOS_UNDEFINED;
 	int yPos = SDL_WINDOWPOS_UNDEFINED;
+	float deltaTime = 0.0f;
 
 	// Create and Initialize Game
-	Game* game = new Game();
-	game->init("Andesite", xPos, yPos, screenWidth, screenHeight, fullscreen);
-	
+	Game::GetInstance()->Init("Andesite", xPos, yPos, screenWidth, screenHeight, fullscreen);
+
 	// Game Loop
-	while (game->running())
+	while (Game::GetInstance()->IsRunning() == true)
 	{
-		game->handleEvent();
-		game->update();
-		game->render();
+ 		Game::GetInstance()->HandleEvent();
+		Game::GetInstance()->Update(deltaTime);
+		Game::GetInstance()->Render();
 		// SDL_Delay(10); need ? 
 	} 
-
-	delete game;
-#ifdef _DEBUG
-	_CrtDumpMemoryLeaks();
-#endif // DEBUG
+	delete Game::GetInstance();
 	return 0;
 }

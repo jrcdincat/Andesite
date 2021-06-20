@@ -2,30 +2,25 @@
 #include "Entity.h"
 
 Entity::Entity(Vector2f posParam, SDL_Texture* textureParam)
-	:position(posParam), texture(textureParam) 
-{
+	:position(posParam), texture(textureParam) {
 	// Remove hardcode later
 	currentFrame.x = 0;
 	currentFrame.y = 0;
 	currentFrame.w = 32; // 32 pixels
 	currentFrame.h = 32;
 }
-Entity::~Entity() 
-{
+Entity::~Entity() {
 
 }
 
-Vector2f& Entity::getPos()
-{
+Vector2f& Entity::GetPos() {
 	return position;
 }
 
-SDL_Texture* Entity::getTexture() 
-{
+SDL_Texture* Entity::GetTexture() {
 	return texture;
 }
 
-SDL_Rect Entity::getCurrentFrame()
-{
+SDL_Rect Entity::GetCurrentFrame() {
 	return currentFrame;
 }

@@ -6,9 +6,10 @@ class Entity {
 public:
 	Entity(Vector2f posParam, SDL_Texture* textureParam);
 	~Entity();
-	Vector2f& getPos();
-	SDL_Texture* getTexture();
-	SDL_Rect getCurrentFrame();
+	Vector2f& GetPos();
+	SDL_Texture* GetTexture();
+	SDL_Rect GetCurrentFrame();
+
 private: 
 	Vector2f position;
 	SDL_Rect currentFrame;
