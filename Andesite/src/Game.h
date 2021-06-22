@@ -29,7 +29,8 @@ private:
 	bool isRunning;
 	SDL_Window* window; 
 	SDL_Renderer* renderer;
-	Player player;
+	Player* player;
+	Properties* playerProperties;
 	Command* command;
 	const Uint8* keyState;
 	static Game* gameInstance;

@@ -2,12 +2,25 @@
 #include "IObject.h"
 #include "Math.h"
 
+struct Properties {
+	Properties(std::string texID, int x, int y, int w, int h, SDL_RendererFlip flip = SDL_FLIP_NONE) :textureID(texID), width(w), height(h), renderFlip(flip) {
+		position.x = x;
+		position.y = y;
+	};
+
+	Vector2f position; 
+	int width, height; 
+	std::string textureID;
+	SDL_RendererFlip renderFlip;
+};
+
 class GameObject : public IObject {
 public: 
-	GameObject(std::string texID, int x, int y, int w, int h, SDL_RendererFlip flip = SDL_FLIP_NONE)
-		:textureID(texID), width(w), height(h), renderFlip(flip) { 
-		position.x = x; 
-		position.y = y;
+	GameObject() = default;
+	GameObject(Properties* properties)
+		:textureID(properties->textureID), 
+		position(properties->position),
+		width(properties->width), height(properties->height), renderFlip(properties->renderFlip) { 
 	};
 	virtual ~GameObject() {};
 

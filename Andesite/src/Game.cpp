@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Game.h"
-//#include "Player.h"
+#include "Player.h"
 Game* Game::gameInstance = nullptr;
 
 Game::Game()
@@ -11,6 +11,7 @@ Game::Game()
 	renderer = nullptr;
 	command = nullptr;
 	gameInstance = nullptr;
+	player = nullptr;
 }
 Game::~Game()
 {
@@ -58,7 +59,10 @@ bool Game::Init(const char* TITLE, int xPos, int yPos, int w, int h, bool fullsc
 		return false;
 	}
 
-	TextureManager::GetInstance()->LoadTexture("chest", "src/assets/images/Tile_16.png");
+	TextureManager::GetInstance()->LoadTexture("player", "src/assets/images/hero/Sprites/Idle.png");
+	playerProperties = new Properties("player", 100, 100, 200, 200);
+	player = new Player(playerProperties); // add delete properties in destructor
+
 	isRunning = true;
 	return isRunning;
 }
@@ -85,7 +89,7 @@ void Game::HandleEvent() {
 		}
 		break;
 	case SDL_KEYUP:
-		player.setSpeed(0.0f, 0.0f);
+		player->setSpeed(0.0f, 0.0f);
 		break;
 	default: 
 		break;
@@ -95,7 +99,7 @@ void Game::HandleEvent() {
 
 
 void Game::Update(float deltaTime) {
-	
+	player->Update(deltaTime);
 }
 
 void Game::Render() {
@@ -105,7 +109,9 @@ void Game::Render() {
 
 	SDL_RenderClear(renderer);
 
-	TextureManager::GetInstance()->Draw("chest", 100, 100, 256, 256);
+	//TextureManager::GetInstance()->DrawFrame("player", 100, 100, 200, 200,0, 7);
+	/*TextureManager::GetInstance()->Draw("chest", 100, 100, 256, 256);*/
+	player->Draw();
 
 	//SDL_Texture* background = TextureManager::LoadTexture(img_path, renderer);
 	//Entity entity(Vector2f(0.0f,0.0f), background);
@@ -118,6 +124,8 @@ void Game::Render() {
 }
 
 void Game::Clean() {
+	delete playerProperties; 
+	delete player;
 	delete InputManager::GetInstance();
 	TextureManager::GetInstance()->Clean();
 	delete TextureManager::GetInstance();
