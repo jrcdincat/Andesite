@@ -1,6 +1,6 @@
 #pragma once
 #include "SDL_image.h";
-#include "Math.h";
+#include "Vector2f.h";
 
 class Entity {
 public:

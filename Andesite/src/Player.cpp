@@ -7,6 +7,7 @@ Player::Player(Properties* properties): Actor(properties) {
 	row = 0;
 	frameCount = 8;
 	animationSpeed = 80;
+	rigidBody = new RigidBody();
 	animation = new Animation();
 	animation->SetProperties(textureID, 0, 8, 80, SDL_FLIP_HORIZONTAL);
 	//height = properties->height;
@@ -22,6 +23,7 @@ Player::Player(Properties* properties): Actor(properties) {
 
 Player::~Player() {
 	delete animation;
+	delete rigidBody;
 }
 
 void Player::Draw() {
@@ -30,6 +32,9 @@ void Player::Draw() {
 }
 
 void Player::Update(float dt) {
+	rigidBody->Update(dt);
+	position.x += rigidBody->GetPosition().x;
+	position.y += rigidBody->GetPosition().y;
 	animation->Update();
 	// frame = (SDL_GetTicks() / animationSpeed) % frameCount; 
 }

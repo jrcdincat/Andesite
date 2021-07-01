@@ -1,6 +1,6 @@
 #pragma once
 #include "IObject.h"
-#include "Math.h"
+#include "Vector2f.h"
 
 struct Properties {
 	Properties(std::string texID, int x, int y, int w, int h, SDL_RendererFlip flip = SDL_FLIP_NONE) :textureID(texID), width(w), height(h), renderFlip(flip) {

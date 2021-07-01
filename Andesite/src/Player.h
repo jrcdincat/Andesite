@@ -1,6 +1,7 @@
 #pragma once
 #include "Actor.h"
 #include "Animation/Animation.h"
+#include "Physics/RigidBody.h"
 
 class Player : Actor {
 public: 
@@ -18,6 +19,7 @@ private:
 	int row, frame, frameCount; 
 	int animationSpeed;
 	Animation* animation;
+	RigidBody* rigidBody; 
 
 	std::tuple<float, float> speed; 
 	//std::tuple<float, float> position;
