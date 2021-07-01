@@ -1,2 +1,13 @@
-﻿  GameObject.cpp
+﻿  Entity.cpp
+C:\Users\jrcdi\source\repos\Andesite\Andesite\src\Entity.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\jrcdi\source\repos\Andesite\Andesite\src\Entity.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Game.cpp
+C:\Users\jrcdi\source\repos\Andesite\Andesite\src\Entity.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\jrcdi\source\repos\Andesite\Andesite\src\Entity.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  TextureManager.cpp
+C:\Users\jrcdi\source\repos\Andesite\Andesite\src\Entity.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\jrcdi\source\repos\Andesite\Andesite\src\Entity.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\jrcdi\source\repos\Andesite\Andesite\src\TextureManager.cpp(39,36): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\jrcdi\source\repos\Andesite\Andesite\src\TextureManager.cpp(40,36): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
   Andesite.vcxproj -> C:\Users\jrcdi\source\repos\Andesite\bin\Win32\Debug\Andesite.exe

@@ -2,29 +2,36 @@
 #include "Player.h"
 #include "Command.h"
 #include "InputManager.h"
+#include "TextureManager.h"
+#include "SDL_image.h"
+
 
 class Game
 {
 public: 
-	Game();
+	static Game* GetInstance() {
+		return gameInstance = ( gameInstance != nullptr ) ? gameInstance : new Game();
+	}
 	~Game(); 
 
-	void init(const char* TITLE, int xpos, int ypos, int w, int h, bool fullscreen);
-	void handleEvent();
-	void update();
-	void render();
-	void clean();
-	bool running();
+	bool Init(const char* TITLE, int xpos, int ypos, int w, int h, bool fullscreen);
 
-	
-	
+	void HandleEvent();
+	void Update();
+	void Render();
+	void Clean();
+
+	inline bool IsRunning() { return isRunning; }
+	inline SDL_Renderer* GetRenderer() { return renderer; }
 
 private:
+	Game();
 	bool isRunning;
 	SDL_Window* window; 
 	SDL_Renderer* renderer;
-	Player player;
+	Player* player;
+	Properties* playerProperties;
 	Command* command;
-	InputManager* inputManager; 
 	const Uint8* keyState;
+	static Game* gameInstance;
 };

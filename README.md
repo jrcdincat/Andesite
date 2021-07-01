@@ -6,8 +6,7 @@ A 2D platformer where the player travels through the volcanic wilderness.
 
 Hint: Andesite - a volcanic rock
 ### Works
-- Creates Window
-- Displays image
+- Player Animation
 - Receives key input for player movement
 
 ### Current Development Tasks
@@ -17,5 +16,4 @@ Hint: Andesite - a volcanic rock
 
 ## Note
 Development has been delayed due to other responsibilities
-- Resume Development Date: May 10, 2021
 - Estimated Completion Date: July 31, 2021

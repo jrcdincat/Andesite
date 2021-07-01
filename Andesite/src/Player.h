@@ -1,14 +1,29 @@
 #pragma once
+#include "Actor.h"
+#include "Animation/Animation.h"
+#include "Physics/RigidBody.h"
 
-class Player {
+class Player : Actor {
 public: 
-	Player();
-	void update();
-	void setSpeed(float speedX, float speedY);
-	std::tuple<float, float> getSpeed();
+	Player() = default;
+	Player(Properties* properties);
+	~Player();
+
+	virtual void Draw();
+	virtual void Update(float dt);
+	virtual void Clean();
+
+	void MoveRight();
+	void MoveLeft();
+	void Idle();
+
 private: 
-	std::tuple<float, float> speed; 
-	std::tuple<float, float> position;
+	int row, frame, frameCount; 
+	int animationSpeed;
+	Animation* animation;
+	RigidBody* rigidBody; 
+
+	//std::tuple<float, float> position;
 	float gravity;
 	int health;
 };

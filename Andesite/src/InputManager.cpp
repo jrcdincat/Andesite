@@ -1,16 +1,19 @@
 #include "pch.h"
 #include "InputManager.h"
+InputManager* InputManager::inputManagerInstance = nullptr;
 
 InputManager::InputManager() {
 	buttonSpace = new JumpCommand();
 	buttonA = new MoveLeftCommand();
 	buttonD = new MoveRightCommand();
+	buttonS = nullptr;
+	buttonW = nullptr;
 }
 
 InputManager::~InputManager() {
-	delete buttonSpace;
-	delete buttonA;
-	delete buttonD;
+		delete buttonSpace;
+		delete buttonA;
+		delete buttonD;
 }
 
 // Get keyboard input state

@@ -1,10 +1,7 @@
 #include "pch.h"
 #include "Game.h"
+#include "Timer.h"
 #include "SDL_image.h"
-
-#ifdef _DEBUG
-#include "crtdbg.h"
-#endif // DEBUG
 
 int main(int argc, char*args[])
 {
@@ -15,21 +12,18 @@ int main(int argc, char*args[])
 	int yPos = SDL_WINDOWPOS_UNDEFINED;
 
 	// Create and Initialize Game
-	Game* game = new Game();
-	game->init("Andesite", xPos, yPos, screenWidth, screenHeight, fullscreen);
-	
+	Game::GetInstance()->Init("Andesite", xPos, yPos, screenWidth, screenHeight, fullscreen);
+
 	// Game Loop
-	while (game->running())
+	while (Game::GetInstance()->IsRunning() == true)
 	{
-		game->handleEvent();
-		game->update();
-		game->render();
-		// SDL_Delay(10); need ? 
+ 		Game::GetInstance()->HandleEvent();
+		Game::GetInstance()->Update();
+		Game::GetInstance()->Render();
+		Timer::GetInstance()->Tick();
 	} 
 
-	delete game;
-#ifdef _DEBUG
-	_CrtDumpMemoryLeaks();
-#endif // DEBUG
+	delete Game::GetInstance();
+	delete Timer::GetInstance();
 	return 0;
 }
