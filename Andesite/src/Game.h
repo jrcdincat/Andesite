@@ -17,7 +17,7 @@ public:
 	bool Init(const char* TITLE, int xpos, int ypos, int w, int h, bool fullscreen);
 
 	void HandleEvent();
-	void Update(float deltaTime);
+	void Update();
 	void Render();
 	void Clean();
 

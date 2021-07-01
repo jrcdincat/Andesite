@@ -9,7 +9,7 @@ Player::Player(Properties* properties): Actor(properties) {
 	animationSpeed = 80;
 	rigidBody = new RigidBody();
 	animation = new Animation();
-	animation->SetProperties(textureID, 0, 8, 80, SDL_FLIP_HORIZONTAL);
+	animation->SetProperties(textureID, 0, 8, 80);
 	//height = properties->height;
 	//width = properties->height;
 	//textureID = properties->textureID;
@@ -34,7 +34,7 @@ void Player::Draw() {
 void Player::Update(float dt) {
 	rigidBody->Update(dt);
 	position.x += rigidBody->GetPosition().x;
-	position.y += rigidBody->GetPosition().y;
+	// position.y += rigidBody->GetPosition().y;
 	animation->Update();
 	// frame = (SDL_GetTicks() / animationSpeed) % frameCount; 
 }
@@ -43,13 +43,18 @@ void Player::Clean() {
 	TextureManager::GetInstance()->Clean();
 }
 
-void Player::setSpeed(float xSpeed, float ySpeed)
-{
-	std::get<0>(speed) = xSpeed; 
-	std::get<1>(speed) = ySpeed;
+// Movement
+void Player::MoveRight() {
+	rigidBody->SetForceX(25 * FORWARD);
+	animation->SetProperties("player_run", 0, 8, 80);
 }
 
-std::tuple<float, float> Player::getSpeed()
-{
-	return speed;
+void Player::MoveLeft() {
+	rigidBody->SetForceX(25 * BACKWARD);
+	animation->SetProperties("player_run", 0, 8, 80, SDL_FLIP_HORIZONTAL);
+}
+
+void Player::Idle() {
+	rigidBody->ResetForce();
+	animation->SetProperties("player_idle", 0, 8, 80, SDL_FLIP_HORIZONTAL);
 }

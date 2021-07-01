@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Game.h"
 #include "Player.h"
+#include "Timer.h"
+
 Game* Game::gameInstance = nullptr;
 
 Game::Game()
@@ -59,8 +61,9 @@ bool Game::Init(const char* TITLE, int xPos, int yPos, int w, int h, bool fullsc
 		return false;
 	}
 
-	TextureManager::GetInstance()->LoadTexture("player", "src/assets/images/hero/Sprites/Idle.png");
-	playerProperties = new Properties("player", 100, 100, 200, 200);
+	TextureManager::GetInstance()->LoadTexture("player_idle", "src/assets/images/hero/Sprites/Idle.png");
+	TextureManager::GetInstance()->LoadTexture("player_run", "src/assets/images/hero/Sprites/Run.png");
+	playerProperties = new Properties("player_idle", 100, 100, 200, 200);
 	player = new Player(playerProperties); // add delete properties in destructor
 
 	isRunning = true;
@@ -89,7 +92,7 @@ void Game::HandleEvent() {
 		}
 		break;
 	case SDL_KEYUP:
-		player->setSpeed(0.0f, 0.0f);
+		player->Idle();
 		break;
 	default: 
 		break;
@@ -98,7 +101,8 @@ void Game::HandleEvent() {
 
 
 
-void Game::Update(float deltaTime) {
+void Game::Update() {
+	float deltaTime = Timer::GetInstance()->GetDeltaTime();
 	player->Update(deltaTime);
 }
 

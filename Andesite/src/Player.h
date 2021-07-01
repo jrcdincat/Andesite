@@ -13,15 +13,16 @@ public:
 	virtual void Update(float dt);
 	virtual void Clean();
 
-	void setSpeed(float speedX, float speedY);
-	std::tuple<float, float> getSpeed();
+	void MoveRight();
+	void MoveLeft();
+	void Idle();
+
 private: 
 	int row, frame, frameCount; 
 	int animationSpeed;
 	Animation* animation;
 	RigidBody* rigidBody; 
 
-	std::tuple<float, float> speed; 
 	//std::tuple<float, float> position;
 	float gravity;
 	int health;

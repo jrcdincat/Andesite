@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Game.h"
+#include "Timer.h"
 #include "SDL_image.h"
 
 int main(int argc, char*args[])
@@ -9,7 +10,6 @@ int main(int argc, char*args[])
 	bool fullscreen = false;
 	int xPos = SDL_WINDOWPOS_UNDEFINED;
 	int yPos = SDL_WINDOWPOS_UNDEFINED;
-	float deltaTime = 0.0f;
 
 	// Create and Initialize Game
 	Game::GetInstance()->Init("Andesite", xPos, yPos, screenWidth, screenHeight, fullscreen);
@@ -18,10 +18,12 @@ int main(int argc, char*args[])
 	while (Game::GetInstance()->IsRunning() == true)
 	{
  		Game::GetInstance()->HandleEvent();
-		Game::GetInstance()->Update(deltaTime);
+		Game::GetInstance()->Update();
 		Game::GetInstance()->Render();
-		// SDL_Delay(10); need ? 
+		Timer::GetInstance()->Tick();
 	} 
+
 	delete Game::GetInstance();
+	delete Timer::GetInstance();
 	return 0;
 }
