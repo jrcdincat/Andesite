@@ -14,6 +14,4 @@ void Animation::SetProperties(std::string id, int row, int frameCnt, int animate
 	frameCount= frameCnt;
 	animationSpeed = animateSpeed;
 	rendererFlip = flip;
-
-
 }

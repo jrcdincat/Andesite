@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include "TextureManager.h"
 #include "SDL_image.h"
+#include "Map/GameMap.h"
 
 
 class Game
@@ -34,4 +35,5 @@ private:
 	Command* command;
 	const Uint8* keyState;
 	static Game* gameInstance;
+	GameMap* gameMap;
 };

@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Player.h"
 #include "Timer.h"
+#include "Map/MapParser.h"
 
 Game* Game::gameInstance = nullptr;
 
@@ -14,6 +15,8 @@ Game::Game()
 	command = nullptr;
 	gameInstance = nullptr;
 	player = nullptr;
+	playerProperties = nullptr;
+	gameMap = nullptr;
 }
 Game::~Game()
 {
@@ -61,10 +64,17 @@ bool Game::Init(const char* TITLE, int xPos, int yPos, int w, int h, bool fullsc
 		return false;
 	}
 
+
+	if (!MapParser::GetInstance()->Load()) {
+		std::cout << "Failed to load map" << std::endl;
+	}
+
+	gameMap = MapParser::GetInstance()->GetMap("map");
+
 	TextureManager::GetInstance()->LoadTexture("player_idle", "src/assets/images/hero/Sprites/Idle.png");
 	TextureManager::GetInstance()->LoadTexture("player_run", "src/assets/images/hero/Sprites/Run.png");
 	playerProperties = new Properties("player_idle", 100, 100, 200, 200);
-	player = new Player(playerProperties); // add delete properties in destructor
+	player = new Player(playerProperties);
 
 	isRunning = true;
 	return isRunning;
@@ -103,6 +113,7 @@ void Game::HandleEvent() {
 
 void Game::Update() {
 	float deltaTime = Timer::GetInstance()->GetDeltaTime();
+	gameMap->Update();
 	player->Update(deltaTime);
 }
 
@@ -115,6 +126,7 @@ void Game::Render() {
 
 	//TextureManager::GetInstance()->DrawFrame("player", 100, 100, 200, 200,0, 7);
 	/*TextureManager::GetInstance()->Draw("chest", 100, 100, 256, 256);*/
+	gameMap->Render();
 	player->Draw();
 
 	//SDL_Texture* background = TextureManager::LoadTexture(img_path, renderer);
@@ -131,6 +143,8 @@ void Game::Clean() {
 	delete playerProperties; 
 	delete player;
 	delete InputManager::GetInstance();
+	MapParser::GetInstance()->Clean();
+	delete MapParser::GetInstance();
 	TextureManager::GetInstance()->Clean();
 	delete TextureManager::GetInstance();
 	SDL_DestroyRenderer(renderer);
